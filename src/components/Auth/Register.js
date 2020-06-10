@@ -39,7 +39,9 @@ class Register extends React.Component {
             nameError: '',
             emailError: '',
             passwordError: '',
-            loading: false
+            loading: false,
+
+            usersRef: firebase.database().ref('users')
         }
     }
 
@@ -92,9 +94,16 @@ class Register extends React.Component {
                             photoURL: `http://gravatar.com/avatar/${md5(createdUser.user.email)}?d=identicon`
                         })
                         .then(() => {
-                            this.setState({...this.state, loading: false});
+                            this.saveUser(createdUser)
+                                .then(() => {
+                                    console.log("User saved!!")
+                                    this.setState({...this.state, loading: false});
+                                })
+                                .catch(error => {
+                                    console.error(error);
+                                })                          
                         })
-                        .catch(err => {
+                        .catch(err => { 
                             this.setState({...this.state, loading: false});
                         })
                         
@@ -115,6 +124,16 @@ class Register extends React.Component {
         });
         
     }
+
+
+    saveUser = createdUser => {
+        return this.state.usersRef.child(createdUser.user.uid).set({
+            name: createdUser.user.displayName,
+            avatar: createdUser.user.photoURL,
+            email: createdUser.user.email
+        })
+    }
+
     render() {
         const {classes} = this.props;
 
