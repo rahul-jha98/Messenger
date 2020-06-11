@@ -3,9 +3,13 @@ import ReactDOM from 'react-dom';
 import {createStore} from 'redux';
 import {Provider, connect} from 'react-redux';
 
+import './index.css'
+
 import App from './components/App';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
+import AppBar from './components/AppBar/AppBar';
+
 import firebase from './firebase';
 
 import * as serviceWorker from './serviceWorker';
@@ -16,10 +20,22 @@ import { ThemeProvider } from '@material-ui/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 
 import rootReducer from './reducers';
-import {setUser} from './actions';
+import {setUser, clearUser} from './actions';
 
 const theme = createMuiTheme({
   palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#ff6f00',
+    },
+  },
+});
+
+const theme2 = createMuiTheme({
+  palette: {
+    type: 'dark',
     primary: {
       main: '#1976d2',
     },
@@ -33,55 +49,75 @@ const store = createStore(rootReducer);
 
 class Root extends React.Component {
   state = {
-    message: ""
+    message: "",
+    darkMode: false
   }
+
+  showSnackbarMessage(message) {
+    let state = this.state;
+    state = {...state, message: message};
+    this.setState(state);
+  }
+
+  toggleDarkMode() {
+    let state = this.state;
+    this.setState({...state, darkMode: !state.darkMode});
+  }
+
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.setState({...this.state, message: 'Logged in as ' + user.displayName});
-        this.props.history.push("/");
+        this.showSnackbarMessage('Logged in as ' + user.displayName);
+        this.props.history.replace('/');
         this.props.setUser(user);
+      } else {
+        this.props.history.replace('/login');
+        this.props.clearUser();
       }
     })
   }
 
   render() {
     return (
-      <React.Fragment>
-        <Switch>
-          <Route exact path="/" component={() => (<App isLoading = {this.props.isLoading}/>)} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
-        </Switch>
+      <ThemeProvider theme={this.state.darkMode ? theme2 : theme}>
+        <React.Fragment style={{background:theme.palette.type === 'dark' ? '#373737': '#fafafa'}}>
+          <AppBar user = {this.props.currentUser} toggleDarkMode= {() => this.toggleDarkMode()}/>
+          <Switch>
+            <Route exact path="/" component={() => (<App isLoading = {this.props.isLoading} user = {this.props.currentUser}/>)} />
+            <Route path="/login" component={Login} />
+            <Route path="/register" component={Register} />
+          </Switch>
 
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          open={this.state.message.length > 0}
-          autoHideDuration={6000}
-          onClose={() => {this.setState({...this.state, message: ''})}}
-          message = {this.state.message}
-          />
-      </React.Fragment>
+          <Snackbar
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left',
+            }}
+            open={this.state.message.length > 0}
+            autoHideDuration={6000}
+            onClose={() => {this.setState({...this.state, message: ''})}}
+            message = {this.state.message}
+            />
+        </React.Fragment>
+      </ThemeProvider>
     )
   }
 } 
 
 const mapStatesToProps = state => ({
-  isLoading: state.user.isLoading
+  isLoading: state.user.isLoading,
+  currentUser: state.user.currentUser
 })
-const RootWithAuth = withRouter(connect(mapStatesToProps, {setUser})(Root));
+const RootWithAuth = withRouter(connect(mapStatesToProps, {setUser, clearUser})(Root));
 
 ReactDOM.render(
-  <ThemeProvider theme={theme}>
-    <Provider store = {store}>
-      <Router>
-        <RootWithAuth/>
-      </Router>    
-    </Provider>
-  </ThemeProvider>
+  
+  <Provider store = {store}>
+    <Router>
+      <RootWithAuth/>
+    </Router>    
+  </Provider>
+
  ,
   document.getElementById('root')
 );

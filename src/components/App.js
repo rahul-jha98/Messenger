@@ -1,24 +1,30 @@
 import React from 'react';
 import './App.css';
-import {CircularProgress, Typography} from '@material-ui/core';
 
+import LoadingScreen from './LoadingScreen';
+import Home from './Home';
+
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  bg: {
+    background: theme.palette.type === 'dark' ? '#373737': '#fafafa'
+  }
+}));
 
 function App(props) {
-  console.log(props.isLoading)
+  const classes = useStyles();
   return (
-    <div className="app">
-
+    <div className={"app " + classes.bg}>
       {props.isLoading ? 
-        <div style={{width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems:'center', flexDirection:'column'}}>
-          <CircularProgress color='secondary'/>
-          <Typography variant = 'h5' >Fetching your messages</Typography>
-        </div>
+        <LoadingScreen message = "Fetching your messages" />
         :
-        <h1>Your messages</h1>
+        <Home/>
       }
       
     </div>
   );
 }
+
 
 export default App;

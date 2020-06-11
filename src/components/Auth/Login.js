@@ -23,6 +23,12 @@ const useStyles = (theme) => ({
     textField: {
       width: '40ch',
     },
+    bg: {
+        background: theme.palette.type === 'dark' ? '#373737': '#fafafa'
+    },
+    link: {
+        color: theme.palette.secondary.main
+    }
   });
 
 class Login extends React.Component {
@@ -102,12 +108,12 @@ class Login extends React.Component {
 
     render() {
         const {classes} = this.props;
-
+    
         return (
-            <div className={classes.root + " app"}>
+            <div className={classes.root + " app " + classes.bg}>
                 <Grid container justify='center'>
                     <Grid item  style={{maxWidth: 550, textAlign: 'center'}}>
-                       <Paper elevation={2} style={{padding: 30, borderRadius: 10}}>
+                       <Paper elevation={2} style={{padding: 30, borderRadius: 10, margin: '1em'}}>
                             <img src={logo} alt="logo" style={{margin:'auto'}} width='50%' height='30%'/>
                             <Typography variant = 'h5' >Login to Messenger</Typography>
                             <br/>
@@ -156,7 +162,7 @@ class Login extends React.Component {
                             
                             <br/>
                             <Typography variant="body2" component="p">
-                                Don't have an account? <Link to="/register">Register</Link>
+                                Don't have an account? <Link to="/register" replace className={classes.link}>Register</Link>
                             </Typography>
                        </Paper>
                         
