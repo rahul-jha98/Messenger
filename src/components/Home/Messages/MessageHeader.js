@@ -9,11 +9,11 @@ import InfoTwoToneIcon from '@material-ui/icons/InfoTwoTone';
 
 const useStyles = (theme) => ({
   root: {
-    flexGrow: 1,
   },
   color: {
       backgroundColor: theme.palette.type === 'dark' ? '#323232': '#e0e0e0',
-      color: theme.palette.text.primary
+      color: theme.palette.text.primary,
+      paddingLeft: 8
   },
   title: {
     flexGrow: 1,
@@ -26,10 +26,10 @@ class MessageHeader extends React.Component {
 
         return (
             <div className={classes.root}>
-                <AppBar position="static" className={classes.color}>
-                    <Toolbar variant="dense">
+                <AppBar position="static" className={classes.color} disableGutters={true}>
+                    <Toolbar variant="dense" disableGutters={true}>
                         <Typography variant="h6" color="inherit" className={classes.title}>
-                            Chat Header
+                            {this.props.chat ? this.props.chat.name : 'Chat Name'}
                         </Typography>
 
                         <IconButton >

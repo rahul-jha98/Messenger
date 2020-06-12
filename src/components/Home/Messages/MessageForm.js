@@ -2,10 +2,11 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import {TextField, IconButton, Grid, InputBase} from '@material-ui/core';
 import SendTwoToneIcon from '@material-ui/icons/SendTwoTone';
+import firebase from '../../../firebase';
 
 const useStyles = (theme) => ({
     root: {
-      backgroundColor: theme.palette.type === 'dark' ? '#323232': '#e0e0e0',
+      backgroundColor: theme.palette.type === 'dark' ? '#353535': '#e0e0e0',
       color: theme.palette.text.primary,
       alignItems: 'bottom'
     },
@@ -33,6 +34,31 @@ class MessageForm extends React.Component {
     this.setState({[event.target.name]: event.target.value});
   }
 
+  createMessage = () => {
+    return  {
+      content: this.state.message,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+      user: {
+        id: this.props.user.uid,
+        name: this.props.user.displayName,
+        avatar: this.props.user.photoURL
+      }
+    }
+    
+  }
+  submit = () => {
+    if (this.state.message) {
+      const {messageRef} = this.props;
+      messageRef
+        .child(this.props.chatId)
+        .push()
+        .set(this.createMessage())
+
+      console.log(this.props.chatId)
+    }
+    this.setState({message: ''})
+  }
+
   render() {
       const {classes} = this.props;
       return (
@@ -44,19 +70,13 @@ class MessageForm extends React.Component {
                   placeholder="Type message here"
                   multiline
                   name='message'
+                  value = {this.state.message}
                   onChange={this.handleChange}
                   rowsMax={4}
                 />
-                {/* <TextField id="filled-basic" variant="filled" 
-                  placeholder='Type message here'
-                  multiline
-                  fullWidth
-                  size='small'
-                  rowsMax={5}
-                  className={classes.centering}/> */}
               </Grid>
               <Grid item xs={1}>
-                <IconButton >
+                <IconButton onClick={this.submit}>
                   <SendTwoToneIcon className={classes.icon} fontSize='32'/>
                 </IconButton>
               </Grid>

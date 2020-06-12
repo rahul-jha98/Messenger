@@ -5,7 +5,28 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
+import {List, ListItem, ListSubheader, ListItemText} from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import MessageHeader from './MessageHeader';
+
+
+const useStyles = (theme) => ({
+  root: {
+    width: '100%',
+    height: '100%',
+    padding: 0,
+    backgroundColor: theme.palette.background.paper,
+    position: 'relative',
+    overflow: 'auto',
+  },
+  listSection: {
+    backgroundColor: 'inherit',
+  },
+  ul: {
+    backgroundColor: 'inherit',
+    padding: 0,
+  },
+});
 
 function ElevationScroll(props) {
   const { children, window } = props;
@@ -32,26 +53,55 @@ ElevationScroll.propTypes = {
   window: PropTypes.func,
 };
 
-export default function ElevateAppBar(props) {
-  return (
-    <React.Fragment>
-      <CssBaseline />
-      <ElevationScroll {...props}>
-        <MessageHeader/>
-      </ElevationScroll>
-      <Toolbar />
-      <Container>
-        <Box my={2}>
-          {[...new Array(5)]
-            .map(
-              () => `Cras mattis consectetur purus sit amet fermentum.
-Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-Praesent commodo cursus magna, vel scelerisque nisl consectetur et.`,
-            )
-            .join('\n\n\n\n\n')}
-        </Box>
-      </Container>
-    </React.Fragment>
-  );
+class ElevateAppBar extends React.Component {
+  state = {
+    messagesLoading: true,
+    messages: []
+  }
+  componentDidMount() {
+    if (this.props.chat) {
+      this.addListeners(this.props.chat.id);
+    }
+  }
+
+  addListeners = chatId => {
+    this.addMessageListener(chatId);
+  }
+
+  addMessageListener = chatId => {
+    let loadedMessages = [];
+    console.log("Ading listenre");
+    this.props.messageRef.child(chatId).on('child_added', snap => {
+      loadedMessages.push(snap.val());
+      this.setState({
+        messages: loadedMessages,
+        messagesLoading: false
+      })
+    })
+  }
+
+  render() {
+    const {classes} = this.props;
+
+    return (
+      <React.Fragment>
+      
+        <ElevationScroll {...this.props}>
+          <MessageHeader chat={this.props.chat}/>
+        </ElevationScroll>
+        
+        <Container style={{height: '77vh', maxHeight: '77vh', margin: 1, padding: 0}}>
+          <List className={classes.root} subheader={<li />}>
+            {this.state.messages.map((message) => (
+              <h1>{message.content}</h1>
+            ))}
+          </List>
+        </Container>
+      </React.Fragment>
+    );
+  }
+  
 }
+
+
+export default withStyles(useStyles)(ElevateAppBar);

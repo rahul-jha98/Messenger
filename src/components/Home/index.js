@@ -38,7 +38,7 @@ function Home (props) {
                   <ContactsPanel currentUser={props.currentUser}/>
                 </Grid>                
                 <Grid item xs={12} sm ={8} className={classes.content + " " + classes.item}>
-                  <Messages />
+                  <Messages chat = {props.currentChat} user={props.currentUser}/>
                 </Grid>
             </Grid>
         </div>
@@ -46,6 +46,7 @@ function Home (props) {
 }
 
 const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+  currentUser: state.user.currentUser,
+  currentChat: state.chat.chat
 });
 export default connect(mapStateToProps)(Home);
