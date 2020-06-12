@@ -54,14 +54,11 @@ class Root extends React.Component {
   }
 
   showSnackbarMessage(message) {
-    let state = this.state;
-    state = {...state, message: message};
-    this.setState(state);
+    this.setState({message: message});
   }
 
   toggleDarkMode() {
-    let state = this.state;
-    this.setState({...state, darkMode: !state.darkMode});
+    this.setState({darkMode: !this.state.darkMode});
   }
 
   componentDidMount() {
@@ -80,7 +77,7 @@ class Root extends React.Component {
   render() {
     return (
       <ThemeProvider theme={this.state.darkMode ? theme2 : theme}>
-        <React.Fragment style={{background:theme.palette.type === 'dark' ? '#373737': '#fafafa'}}>
+        <React.Fragment>
           <AppBar user = {this.props.currentUser} toggleDarkMode= {() => this.toggleDarkMode()}/>
           <Switch>
             <Route exact path="/" component={() => (<App isLoading = {this.props.isLoading} user = {this.props.currentUser}/>)} />
@@ -94,8 +91,8 @@ class Root extends React.Component {
               horizontal: 'left',
             }}
             open={this.state.message.length > 0}
-            autoHideDuration={6000}
-            onClose={() => {this.setState({...this.state, message: ''})}}
+            autoHideDuration={1000}
+            onClose={() => {this.setState({message: ''})}}
             message = {this.state.message}
             />
         </React.Fragment>

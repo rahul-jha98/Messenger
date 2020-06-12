@@ -22,7 +22,7 @@ const useStyles = (theme) => ({
         margin: theme.spacing(1),
     },
     textField: {
-      width: '40ch',
+      width: '38ch',
     },
     bg: {
         background: theme.palette.type === 'dark' ? '#373737': '#fafafa'
@@ -52,19 +52,19 @@ class Register extends React.Component {
     }
 
     handleClickShowPassword = () => {
-        this.setState({ ...this.state, showPassword: !this.state.showPassword });
+        this.setState({ showPassword: !this.state.showPassword });
     };
 
     handleChange = (prop) => (event) => {
-        this.setState({ ...this.state, [prop]: event.target.value });
+        this.setState({[prop]: event.target.value });
     };
 
     setMessage = (name, message) => {
-        this.setState({...this.state, [name]: message});
+        this.setState({[name]: message});
     }
 
     resetErrors = async () => {
-        await this.setState({...this.state, nameError: '', emailError: '', passwordError: ''});
+        await this.setState({ nameError: '', emailError: '', passwordError: ''});
     }
     isFormValid = () => {
         let val = true;
@@ -73,12 +73,12 @@ class Register extends React.Component {
             // this.showSnackbar("Name field cannot be empty");
             val = false;
         } 
-        else if (this.state.email.length === 0) {
+        if (this.state.email.length === 0) {
 
             this.setMessage('emailError', "Email field cannot be empty");
             val = false;
         } 
-        else if (this.state.password.length < 6) {
+        if (this.state.password.length < 6) {
             this.setMessage('passwordError', "Password must have atleast 6 characters");
             val = false;
         } 
@@ -89,7 +89,7 @@ class Register extends React.Component {
     handleSubmit = () => {
         this.resetErrors().then(() => {
             if (this.isFormValid()) {
-                this.setState({...this.state, loading: true});
+                this.setState({loading: true});
                 firebase
                     .auth()
                     .createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -103,14 +103,14 @@ class Register extends React.Component {
                             this.saveUser(createdUser)
                                 .then(() => {
                                     console.log("User saved!!")
-                                    this.setState({...this.state, loading: false});
+                                    this.setState({loading: false});
                                 })
                                 .catch(error => {
                                     console.error(error);
                                 })                          
                         })
                         .catch(err => { 
-                            this.setState({...this.state, loading: false});
+                            this.setState({loading: false});
                         })
                         
                     })
@@ -122,7 +122,7 @@ class Register extends React.Component {
                         } else if (err.message.toLowerCase().includes('password')) {
                             this.setMessage('passwordError', err.message);
                         }
-                        this.setState({...this.state, loading: false});
+                        this.setState({loading: false});
                     })
             } else {
     

@@ -3,10 +3,9 @@ import firebase from '../../firebase';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import {AppBar, IconButton, Toolbar, Typography, Button, Menu,
+import {AppBar, IconButton, Toolbar, Typography, Menu,
 MenuItem} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import {Link} from 'react-router-dom';
 import MoreIcon from '@material-ui/icons/MoreVert';
 
 

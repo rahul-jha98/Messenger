@@ -21,7 +21,7 @@ const useStyles = (theme) => ({
         margin: theme.spacing(1),
     },
     textField: {
-      width: '40ch',
+      width: '38ch',
     },
     bg: {
         background: theme.palette.type === 'dark' ? '#373737': '#fafafa'
@@ -47,30 +47,29 @@ class Login extends React.Component {
     }
 
     handleClickShowPassword = () => {
-        this.setState({ ...this.state, showPassword: !this.state.showPassword });
+        this.setState({showPassword: !this.state.showPassword });
     };
 
     handleChange = (prop) => (event) => {
-        this.setState({ ...this.state, [prop]: event.target.value });
+        this.setState({[prop]: event.target.value });
     };
 
     setMessage = (name, message) => {
-        this.setState({...this.state, [name]: message});
+        this.setState({[name]: message});
     }
 
     resetErrors = async () => {
-        await this.setState({...this.state, nameError: '', emailError: '', passwordError: ''});
+        await this.setState({emailError: '', passwordError: ''});
     }
 
     isFormValid = () => {
         let val = true;
         
         if (this.state.email.length === 0) {
-
             this.setMessage('emailError', "Email field cannot be empty");
             val = false;
         } 
-        else if (this.state.password.length < 6) {
+        if (this.state.password.length < 6) {
             this.setMessage('passwordError', "Password must have atleast 6 characters");
             val = false;
         } 
@@ -113,7 +112,7 @@ class Login extends React.Component {
             <div className={classes.root + " app " + classes.bg}>
                 <Grid container justify='center'>
                     <Grid item  style={{maxWidth: 550, textAlign: 'center'}}>
-                       <Paper elevation={2} style={{padding: 30, borderRadius: 10, margin: '1em'}}>
+                       <Paper elevation={2} style={{padding: 30, borderRadius: 10, marginTop: '1em'}}>
                             <img src={logo} alt="logo" style={{margin:'auto'}} width='50%' height='30%'/>
                             <Typography variant = 'h5' >Login to Messenger</Typography>
                             <br/>
