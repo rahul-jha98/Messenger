@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/static/css/main.d483c362.chunk.css",
-    "main.js": "/static/js/main.edb1f22e.chunk.js",
-    "main.js.map": "/static/js/main.edb1f22e.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.a71bade4.js",
-    "runtime-main.js.map": "/static/js/runtime-main.a71bade4.js.map",
-    "static/js/2.8a0955a8.chunk.js": "/static/js/2.8a0955a8.chunk.js",
-    "static/js/2.8a0955a8.chunk.js.map": "/static/js/2.8a0955a8.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.2c3d3dd955c54e63ad3a8ccb29736803.js": "/precache-manifest.2c3d3dd955c54e63ad3a8ccb29736803.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.d483c362.chunk.css.map": "/static/css/main.d483c362.chunk.css.map",
-    "static/js/2.8a0955a8.chunk.js.LICENSE.txt": "/static/js/2.8a0955a8.chunk.js.LICENSE.txt",
-    "static/media/logo.svg": "/static/media/logo.5d5d9eef.svg"
+    "main.css": "/rahul-jha98/Messenger/static/css/main.d483c362.chunk.css",
+    "main.js": "/rahul-jha98/Messenger/static/js/main.02aa6256.chunk.js",
+    "main.js.map": "/rahul-jha98/Messenger/static/js/main.02aa6256.chunk.js.map",
+    "runtime-main.js": "/rahul-jha98/Messenger/static/js/runtime-main.476f9d88.js",
+    "runtime-main.js.map": "/rahul-jha98/Messenger/static/js/runtime-main.476f9d88.js.map",
+    "static/js/2.fc872361.chunk.js": "/rahul-jha98/Messenger/static/js/2.fc872361.chunk.js",
+    "static/js/2.fc872361.chunk.js.map": "/rahul-jha98/Messenger/static/js/2.fc872361.chunk.js.map",
+    "index.html": "/rahul-jha98/Messenger/index.html",
+    "precache-manifest.b889ffd7777b35dd6b50fc62b4cf00e5.js": "/rahul-jha98/Messenger/precache-manifest.b889ffd7777b35dd6b50fc62b4cf00e5.js",
+    "service-worker.js": "/rahul-jha98/Messenger/service-worker.js",
+    "static/css/main.d483c362.chunk.css.map": "/rahul-jha98/Messenger/static/css/main.d483c362.chunk.css.map",
+    "static/js/2.fc872361.chunk.js.LICENSE.txt": "/rahul-jha98/Messenger/static/js/2.fc872361.chunk.js.LICENSE.txt",
+    "static/media/logo.svg": "/rahul-jha98/Messenger/static/media/logo.5d5d9eef.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.a71bade4.js",
-    "static/js/2.8a0955a8.chunk.js",
+    "static/js/runtime-main.476f9d88.js",
+    "static/js/2.fc872361.chunk.js",
     "static/css/main.d483c362.chunk.css",
-    "static/js/main.edb1f22e.chunk.js"
+    "static/js/main.02aa6256.chunk.js"
   ]
 }
