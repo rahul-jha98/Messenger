@@ -1,0 +1,12 @@
+.message {
+    max-width: 65%;
+    padding: 6px;
+    margin: 2px;
+    margin-left: 6px;
+    margin-right: 6px;
+}
+
+.user-message {
+    margin-left: auto;
+
+}

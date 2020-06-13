@@ -1,14 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Toolbar from '@material-ui/core/Toolbar';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
-import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
-import {List, ListItem, ListSubheader, ListItemText} from '@material-ui/core';
+import {List} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import MessageHeader from './MessageHeader';
-
+import AllMessages from './AllMessages';
 
 const useStyles = (theme) => ({
   root: {
@@ -65,14 +62,30 @@ class ElevateAppBar extends React.Component {
   }
 
   addListeners = chatId => {
+    this.setState({messages: [], messagesLoading: true});
     this.addMessageListener(chatId);
+  }
+
+  componentDidUpdate = prevProps => {
+    console.log(prevProps);
+    if (prevProps.chat) {
+      if (this.props.chat.id !== prevProps.chat.id) {
+        this.removeListeners(prevProps.chat.id);
+        this.addListeners(this.props.chat.id);
+      }
+    }
+  }
+
+  removeListeners = chatId => {
+    this.props.messageRef.child(chatId).off();
   }
 
   addMessageListener = chatId => {
     let loadedMessages = [];
-    console.log("Ading listenre");
+    console.log("Ading listener");
     this.props.messageRef.child(chatId).on('child_added', snap => {
       loadedMessages.push(snap.val());
+      console.log(loadedMessages);
       this.setState({
         messages: loadedMessages,
         messagesLoading: false
@@ -90,11 +103,9 @@ class ElevateAppBar extends React.Component {
           <MessageHeader chat={this.props.chat}/>
         </ElevationScroll>
         
-        <Container style={{height: '77vh', maxHeight: '77vh', margin: 1, padding: 0}}>
+        <Container style={{flexGrow: 1, maxHeight: '77vh', margin: 1, padding: 0}}>
           <List className={classes.root} subheader={<li />}>
-            {this.state.messages.map((message) => (
-              <h1>{message.content}</h1>
-            ))}
+            <AllMessages messages={this.state.messages} userId={this.props.user.uid}/>
           </List>
         </Container>
       </React.Fragment>
